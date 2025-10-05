@@ -1,0 +1,28 @@
+// Pin Definitions
+const int soilPin = A0;       // Soil moisture sensor analog pin
+const int pumpPin = 8;        // Relay module connected to digital pin 8
+
+// Moisture threshold (adjust as per your soil)
+int moistureThreshold = 500;  
+
+void setup() {
+  pinMode(pumpPin, OUTPUT);
+  digitalWrite(pumpPin, LOW); // Turn off pump initially
+  Serial.begin(9600);
+}
+
+void loop() {
+  int soilMoisture = analogRead(soilPin);
+  Serial.print("Soil Moisture: ");
+  Serial.println(soilMoisture);
+
+  if (soilMoisture < moistureThreshold) {
+    Serial.println("Soil is dry. Turning ON water pump.");
+    digitalWrite(pumpPin, HIGH);  // Turn on pump
+  } else {
+    Serial.println("Soil is moist. Turning OFF water pump.");
+    digitalWrite(pumpPin, LOW);   // Turn off pump
+  }
+
+  delay(2000); // Wait 2 seconds before next reading
+}
